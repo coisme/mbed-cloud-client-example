@@ -216,6 +216,23 @@ void main_application(void)
 #endif // MBED_CONF_MBED_CLOUD_CLIENT_DISABLE_CERTIFICATE_ENROLLMENT
 
 
+    // Adding a user file into the default file system.
+    // See https://os.mbed.com/docs/mbed-os/v5.11/apis/fatfilesystem.html#fatfilesystem-example
+    int err = 0;
+    FILE *fp = fopen(PAL_FS_MOUNT_POINT_PRIMARY "/userdata.txt", "w");
+    if(fp != NULL){
+        err = fprintf(fp, "User data here.");
+        if(err < 0) {
+            printf("Fail :(\n");
+            error("error: %s (%d)\n", strerror(errno), -errno);    
+        } else {
+            printf("Created userdata.txt in the default file system.\n");
+        }
+    } else {
+        printf("Failed to open " PAL_FS_MOUNT_POINT_PRIMARY "/userdata.txt\n");
+    }
+    err = fclose(fp);
+
     // Check if client is registering or registered, if true sleep and repeat.
 
     while (mbedClient.is_register_called()) {
