@@ -1,7 +1,9 @@
 {
     "macros": [
         "ARM_UC_USE_PAL_BLOCKDEVICE=1",
-        "MBED_CLOUD_CLIENT_UPDATE_STORAGE=ARM_UCP_FLASHIAP_BLOCKDEVICE"
+        "MBED_CLOUD_CLIENT_UPDATE_STORAGE=ARM_UCP_FLASHIAP_BLOCKDEVICE",
+        "PRIMARY_PARTITION_START=0x200200",
+        "PAL_FS_MOUNT_POINT_PRIMARY=\"/sdcard\""
     ],
     "target_overrides": {
         "*": {
@@ -12,7 +14,7 @@
             "platform.stdio-buffered-serial"    : true,
             "mbed-client.event-loop-size"       : 1024,
             "nanostack-hal.event_loop_thread_stack_size": 8192,
-            "update-client.storage-address"     : "(1024*1024*64)",
+            "update-client.storage-address"     : "512",
             "update-client.storage-size"        : "(1024*1024*2)",
             "update-client.storage-locations"   : 1,
             "mbed-trace.enable": null,
@@ -26,8 +28,11 @@
         },
         "K64F": {
             "target.network-default-interface-type" : "ETHERNET",
-            "update-client.bootloader-details"      : "0x00007188",
-            "update-client.application-details"     : "(40*1024)"
+            "update-client.bootloader-details"      : "0x0000797C",
+            "update-client.application-details"     : "(64*1024)",
+            "target.header_offset"                  : "0x10000",
+            "target.app_offset"                     : "0x10400",
+            "target.bootloader_img"                 : "../mbed-bootloader-extended/BUILD/K64F/GCC_ARM-TINY/mbed-bootloader-extended.bin"        
         },
         "K66F": {
             "target.network-default-interface-type" : "ETHERNET",
